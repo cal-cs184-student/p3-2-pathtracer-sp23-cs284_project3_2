@@ -9,32 +9,44 @@
       padding-left: 100px;  
     }  
   </style> 
-<title>Your Name  |  CS 184</title>
+<title>I-Lun Tsai, Hsuan-Hao Wang  |  CS 184</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
 </head>
 <body>
 <br />
 <h1 align="middle">Assignment 3-2: Additional Features to PathTracer</h1>
-    <h2 align="middle">Your Name</h2>
-    <h2 align="middle">(Webpage URL)</h2>
+    <h2 align="middle">I-Lun Tsai, Hsuan-Hao Wang</h2>
+    <h2 align="middle">https://cal-cs184-student.github.io/p3-2-pathtracer-sp23-cs284_project3_2/</h2>
 
     <div class="padded">
 
         
-        * NOTE: For this project, you will choose TWO out of the four given parts to complete. One of those parts must be Part 1 or Part 2. In other words, you can choose any combination of two parts except the pair (Part 3, Part 4).
+        <!-- * NOTE: For this project, you will choose TWO out of the four given parts to complete. One of those parts must be Part 1 or Part 2. In other words, you can choose any combination of two parts except the pair (Part 3, Part 4). -->
+        <h3 align="middle">Overview</h3>
+        <p>
+            In this project, we expanded the scope of project 3-1 by incorporating additional BSDFs to simulate light interaction with various materials. For part 1, we simulated the physics in which light reflects and refracts when traveling through various materials such as glass and mirrors. In addition, we implemented a Microfacet model for the interaction between light and isotropic rough conductors. Additionally, importance sampling proved to be a useful technique for rendering microfacet materials without requiring excessive numbers of ray samples. Through this project, we gained a better understanding of BSDFs and of how light behaves when bouncing off different materials.
+        </p>
+        <br>
 
 
         <h3 align="middle">Part 1. Mirror and Glass Materials</h3>
 
-        <p><b>
+        <!-- <p><b>
             Show a sequence of six images of scene `CBspheres.dae` rendered with `max_ray_depth` set to 0, 1, 2, 3, 4, 5, and 100. The other settings should be at least 64 samples per pixel and 4 samples per light. Make sure to include all screenshots.
-        </b></p>
+        </b></p> -->
         <p>
-            Your response goes here.
+            In this part, we utilized The Law of Reflection, Snell's Law, and the Schlick Approximation for the Fresnel Equations to simulated the reflection and refraction of light for mirror and glass materials. We list our observations for how incorporating each bounce of light introduces different visual effects to our rendered image:
         </p>
+        <ul>
+            <li>max_ray_depth = 0: Only light sources are visible. We can only see the light coming directly from the source to our viewpoint because we only trace 0-bounce rays.</li>
+            <li>max_ray_depth = 1: Objects that are directly illuminated by light, such as the different-colored walls of our cube, are rendered. We can also see a patch of light on each sphere that directs light from the source to our viewpoint. Shadows of spheres are also shown. We observe that the patch of light on the transmissive sphere is noisier because we are using a probabilistic method for simulate partial reflection and refraction described by Fresnel Equations.</li>
+            <li>max_ray_depth = 2: The mirror effect created by sphere on the left becomes visible showing how light bounces off the walls, reflects off the mirror sphere’s surface, and towards our viewpoint. We can see the shadow of the mirror sphere also reflecting onto its surface.</li>
+            <li>max_ray_depth = 3: The transmissive effect created by the glass sphere on the right can be seen as we get the necessary bounce of light to simulate refraction of light traveling through the glass ball. Furthermore, there is a concentration of refracted rays on the ground below the transmissive sphere, resulting in a bright spot.</li>
+            <li>max_ray_depth = 4: The glass sphere’s reflection in the mirror sphere is observed. We can also see the bright spot on the blue wall resulting from light reflecting off the mirror sphere, traveling through the glass sphere which concentrates light onto the blue wall. The rendered images for max_ray_depth = 5 and 100 have similar appearance.</li>
+        </ul>
         <br>
-        <p><b>
+        <!-- <p><b>
             Point out the new multibounce effects that appear in each image. 
         </b></p>
         <p>
@@ -47,7 +59,47 @@
         <p>
             Your response goes here.
         </p>
-        <br>
+        <br> -->
+        <div align="middle">
+            <table style="width:100%">
+              <tr align="center">
+                <td>
+                  <img src="https://foil-valley-a41.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fde70a0ea-264a-4513-9337-f6afee5fb668%2Fspheres_d100.png?id=58f131a1-f9af-48d8-bdba-e5b588cfd4f7&table=block&spaceId=ff67df48-404c-4889-a983-fd4c22d51181&width=960&userId=&cache=v2" align="middle" width="400px"/>
+                  <figcaption>max_ray_depth = 0</figcaption>
+                </td>
+                <td>
+                  <img src="https://foil-valley-a41.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F3e6d732f-2bae-4f99-a371-0c799f9e5f94%2Fspheres_d1.png?id=f60505b9-c4b6-46ff-96ae-955c9e543a37&table=block&spaceId=ff67df48-404c-4889-a983-fd4c22d51181&width=960&userId=&cache=v2" align="middle" width="400px"/>
+                  <figcaption>max_ray_depth = 1</figcaption>
+                </td>
+              </tr>
+              <tr align="center">
+                <td>
+                  <img src="https://foil-valley-a41.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fbcf42a7d-047a-4c88-960c-efd5d1b06241%2Fspheres_d2.png?id=2a415490-59ed-4af6-9d38-ba48d91e3630&table=block&spaceId=ff67df48-404c-4889-a983-fd4c22d51181&width=960&userId=&cache=v2" align="middle" width="400px"/>
+                  <figcaption>max_ray_depth = 2</figcaption>
+                </td>
+                <td>
+                  <img src="https://foil-valley-a41.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fcb91de2e-ca37-4097-b36a-fa699e0b1216%2Fspheres_d3.png?id=8f2bbd26-8488-42e0-863e-d7928ea645f8&table=block&spaceId=ff67df48-404c-4889-a983-fd4c22d51181&width=960&userId=&cache=v2" align="middle" width="400px"/>
+                  <figcaption>max_ray_depth = 3</figcaption>
+                </td>
+              </tr>
+              <tr align="center">
+                <td>
+                  <img src="https://foil-valley-a41.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fbcf42a7d-047a-4c88-960c-efd5d1b06241%2Fspheres_d2.png?id=2a415490-59ed-4af6-9d38-ba48d91e3630&table=block&spaceId=ff67df48-404c-4889-a983-fd4c22d51181&width=960&userId=&cache=v2" align="middle" width="400px"/>
+                  <figcaption>max_ray_depth = 4</figcaption>
+                </td>
+                <td>
+                  <img src="https://foil-valley-a41.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fd79158cd-3ada-4390-8e6d-fec6a33b28af%2Fspheres_d5.png?id=5d3fd100-374b-49e7-b3ab-ecca407963da&table=block&spaceId=ff67df48-404c-4889-a983-fd4c22d51181&width=960&userId=&cache=v2" align="middle" width="400px"/>
+                  <figcaption>max_ray_depth = 5</figcaption>
+                </td>
+              </tr>
+              <tr align="center">
+                <td>
+                  <img src="https://foil-valley-a41.notion.site/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F866047ed-fce9-4bde-a97b-ddaa97955833%2Fspheres_d100.png?id=1823c0ed-a7d5-4a35-a6b3-06bf3bbbcdea&table=block&spaceId=ff67df48-404c-4889-a983-fd4c22d51181&width=960&userId=&cache=v2" align="middle" width="400px"/>
+                  <figcaption>max_ray_depth = 100</figcaption>
+                </td>
+              </tr>
+            </table>
+          </div>
 
 
         <h3 align="middle">Part 2. Microfacet Material</h3>
@@ -76,7 +128,7 @@
         
         
 
-        <h3 align="middle">Part 3. Environment Lightl</h3>
+        <!-- <h3 align="middle">Part 3. Environment Lightl</h3>
         <b>Pick one *.exr* file to use for all subparts here. Include a converted *.jpg* of it in your website so we know what map you are using.</b>
         
         <p><b>
@@ -134,7 +186,7 @@
         <p>
             Your response goes here.
         </p>
-        <br>
+        <br> -->
 
     </div>
 </body>
