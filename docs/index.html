@@ -103,25 +103,86 @@
 
 
         <h3 align="middle">Part 2. Microfacet Material</h3>
-        <p><b>
+        <!-- <p><b>
             Show a screenshot sequence of 4 images of scene `CBdragon_microfacet_au.dae` rendered with $\alpha$ set to 0.005, 0.05, 0.25 and 0.5. The other settings should be at least 128 samples per pixel and 1 samples per light. The number of bounces should be at least 5. Describe the differences between different images. Note that, to change the $\alpha$, just open the .dae file and search for `microfacet`.
-        </b></p>
+        </b></p> -->
         <p>
-            Your response goes here.
+            During this project stage, I implemented the microfacet material model, a BSDF, and an importance sampler, which enabled us to generate diverse metallic materials with non-smooth surface features. To accomplish this, I calculated the normal distribution function (NDF) and Fresnel term (F) for the microfacet material model while considering the material's alpha value, which determines its level of roughness. A lower alpha value produces a shinier appearance, while a higher alpha value creates a rougher look. The BSDF and importance sampler utilized the Beckmann Distribution to define the distribution of half-vectors for perfect specular reflection, which contains a roughness parameter α. By changing this parameter, the range of surface characteristics that can be achieved can be adjusted, as demonstrated in the series of rendered images of the golden dragon. The dragon's appearance varies from smooth and glossy to scratched metal, depending on the roughness parameter used.
         </p>
         <br>
-        <p><b>
+        <div align="middle">
+            <table style="width:100%">
+              <tr align="center">
+                <td>
+                  <img src="./images/p2/005.png" align="middle" width="400px"/>
+                  <figcaption>alpha: 0.005</figcaption>
+                </td>
+                <td>
+                  <img src="./images/p2/05.png" align="middle" width="400px"/>
+                  <figcaption>alpha: 0.05</figcaption>
+                </td>
+              </tr>
+              <tr align="center">
+                <td>
+                  <img src="./images/p2/25.png" align="middle" width="400px"/>
+                  <figcaption>alpha: 0.25</figcaption>
+                </td>
+                <td>
+                  <img src="./images/p2/50.png" align="middle" width="400px"/>
+                  <figcaption>alpha: 0.50</figcaption>
+                </td>
+              </tr>
+            </table>
+          </div>
+        <!-- <p><b>
             Show two images of scene `CBbunny_microfacet_cu.dae` rendered using cosine hemisphere sampling (default) and your importance sampling. The sampling rate should be fixed at 64 samples per pixel and 1 samples per light. The number of bounces should be at least 5. Briefly discuss their difference.
-        </b></p>
+        </b></p> -->
         <p>
-            Your response goes here.
+            The renders shown were produced using a constant sampling rate of 128 samples per pixel, 5 bounces and one sample per light source. If the alpha value is increased, the object will have a rougher appearance and will appear less glossy or shiny.
         </p>
         <br>
-        <p><b>
-            Show at least one image with some other conductor material, replacing `eta` and `k`. Note that you should look up values for real data rather than modifying them arbitrarily. Tell us what kind of material your parameters correspond to. 
-        </b></p>
+        <div align="middle">
+            <table style="width:100%">
+              <tr align="center">
+                <td>
+                  <img src="./images/p2/hemis.png" align="middle" width="400px"/>
+                  <figcaption>hemisphere sampling</figcaption>
+                </td>
+                <td>
+                  <img src="./images/p2/importance.png" align="middle" width="400px"/>
+                  <figcaption>importance sampling</figcaption>
+                </td>
+              </tr>
+            </table>
+          </div>
         <p>
-            Your response goes here.
+            The renders presented in this example were created with a fixed sampling rate of 64 samples per pixel and one sample per light source. The left image was generated using cosine hemisphere sampling, which uniformly samples rays over a hemisphere. This method is ideal for sampling diffuse BRDFs, but since the dragon material is microfacet and not diffuse, it leads to a noisy image. On the other hand, the right image was created using importance sampling, which prioritizes the samples with a higher influence on the image. The image generated using importance sampling is significantly less noisy with the same number of samples.
+        </p>
+        <br>
+        <!-- <p><b>
+            Show at least one image with some other conductor material, replacing `eta` and `k`. Note that you should look up values for real data rather than modifying them arbitrarily. Tell us what kind of material your parameters correspond to. 
+        </b></p> -->
+        <div align="middle">
+            <table style="width:100%">
+              <tr align="center">
+                <td>
+                  <img src="./images/p2/bunny_calcium.png" align="middle" width="400px"/>
+                  <figcaption>Simulating the Calcium material</figcaption>
+                  <figcaption>eta: 0.29294 0.28568 0.28733</figcaption>
+                  <figcaption>k: 2.7181 2.3479 1.8333</figcaption>
+                </td>
+                <td>
+                  <img src="./images/p2/bunny_gold.png" align="middle" width="400px"/>
+                  <figcaption>Simulating the Gold material</figcaption>
+                  <figcaption>Simulating the Calcium material</figcaption>
+                  <figcaption>eta: 0.21646 0.42833 1.3284</figcaption>
+                  <figcaption>k: 3.2390 2.4599 1.8661</figcaption>
+                </td>
+              </tr>
+            </table>
+          </div>
+        <p>
+            By utilizing empirical data tables containing information about the refractive index and extinction coefficient of various materials, it is possible to select the appropriate values of η and k for each RGB color channel's wavelength to estimate the material's Fresnel term. In the following render of a multifaceted dragon, I set the roughness parameter α to 0.05 and utilized the optical properties of Calcium.
         </p>
         <br>
         
